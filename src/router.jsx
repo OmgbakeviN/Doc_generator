@@ -3,7 +3,7 @@ import { createBrowserRouter, redirect } from "react-router-dom";
 import Catalog from "./pages/Catalog";
 import RootLayout from "./layouts/RootLayout";
 import NotFound from "./pages/NotFound";
-import TwoStepForm from "./pages/TwoStepForm";
+import UploadAndFix from "./pages/UploadAndFix";
 import Preview from "./pages/Preview";
 
 export const router = createBrowserRouter([
@@ -13,7 +13,7 @@ export const router = createBrowserRouter([
         element: <RootLayout />,
         children: [
             { index: true, element: <Catalog /> },
-            { path: "fill/:templateId", element: <TwoStepForm /> },
+            { path: "fill/:templateId", element: <UploadAndFix /> },
             { path: "preview/:templateId", element: <Preview /> },
         ],
     },
