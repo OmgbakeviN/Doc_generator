@@ -1,0 +1,23 @@
+{
+    "id": "invoice",
+    "name": "Facture Simple",
+    "category": "Comptabilité",
+    "thumbnail": "/invoice-thumb.png",
+    "schema": [
+      { "key": "supplier", "label": "Fournisseur", "type": "text", "required": true },
+      { "key": "client", "label": "Client", "type": "text", "required": true },
+      { "key": "date", "label": "Date", "type": "date", "required": true },
+      { "key": "number", "label": "N° Facture", "type": "text", "required": true },
+      { "key": "item", "label": "Désignation", "type": "text", "required": true },
+      { "key": "qty", "label": "Quantité", "type": "number", "required": true },
+      { "key": "price", "label": "Prix Unitaire (XAF)", "type": "number", "required": true }
+    ],
+    "defaults": {
+      "fontFamily": "\"Times New Roman\", Times, serif",
+      "fontSize": 12,
+      "lineHeight": 1.5,
+      "accent": "#2563eb"
+    },
+    "template": "<div class=\"w-[210mm] min-h-[297mm] mx-auto p-10 bg-white\"><div class=\"flex justify-between items-start\"><div><h1 class=\"text-xl font-semibold\">Facture</h1><div class=\"text-sm\">N° {{number}}</div></div><div class=\"text-right\"><div class=\"text-sm\">Date: {{date}}</div></div></div><div class=\"grid grid-cols-2 gap-6 mt-6\"><div><div class=\"text-xs uppercase\">Fournisseur</div><div class=\"font-medium\">{{supplier}}</div></div><div><div class=\"text-xs uppercase\">Client</div><div class=\"font-medium\">{{client}}</div></div></div><table class=\"w-full mt-8 border border-gray-300 border-collapse\"><thead><tr><th class=\"border border-gray-300 p-2 text-left\">Désignation</th><th class=\"border border-gray-300 p-2 text-right\">Qté</th><th class=\"border border-gray-300 p-2 text-right\">PU</th><th class=\"border border-gray-300 p-2 text-right\">Montant</th></tr></thead><tbody><tr><td class=\"border border-gray-300 p-2\">{{item}}</td><td class=\"border border-gray-300 p-2 text-right\">{{qty}}</td><td class=\"border border-gray-300 p-2 text-right\">{{price}}</td><td class=\"border border-gray-300 p-2 text-right\">{{total}}</td></tr></tbody></table><div class=\"mt-6 flex justify-end\"><div class=\"w-64\"><div class=\"flex justify-between\"><div>Total</div><div class=\"font-semibold\">{{total}}</div></div></div></div></div>"
+  }
+  

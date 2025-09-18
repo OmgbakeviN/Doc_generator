@@ -1,0 +1,21 @@
+[
+    {
+      "id": "attestation",
+      "name": "Attestation de Travail",
+      "category": "Administratif",
+      "thumbnail": "https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=916&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": "invoice",
+      "name": "Facture Simple",
+      "category": "Comptabilité",
+      "thumbnail": "https://images.unsplash.com/photo-1649209979970-f01d950cc5ed?q=80&w=741&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": "certificate",
+      "name": "Certificat",
+      "category": "Administratif",
+      "thumbnail": "https://images.unsplash.com/photo-1570610159825-ec5d3823660c?q=80&w=1033&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    }
+  ]
+  
