@@ -35,7 +35,6 @@ export default function Preview() {
   const style = {
     color: '#111',
     backgroundColor: '#fff',
-    fontFamily: state?.options?.fontFamily || tpl.defaults.fontFamily,
     fontSize: `${state?.options?.fontSize || tpl.defaults.fontSize}pt`,
     lineHeight: state?.options?.lineHeight || tpl.defaults.lineHeight
   };
@@ -49,10 +48,16 @@ export default function Preview() {
       </div>
 
       <div className="sticky top-24 space-y-4">
-        <Link to={`/app/fill/${tpl.id}`} className="block text-center px-4 py-2 rounded-lg border border-white/20">
+        <Link
+          to={`/app/fill/${tpl.id}`}
+          className="block text-center px-4 py-3 rounded-lg border border-slate-300 text-slate-700 font-medium hover:border-slate-400 hover:bg-slate-50 transition-colors duration-200 shadow-sm"
+        >
           Modifier
         </Link>
-        <button onClick={() => ref.current && exportPdf(ref.current, `${tpl.name}.pdf`)} className="w-full px-4 py-2 rounded-lg bg-white text-black">
+        <button
+          onClick={() => ref.current && exportPdf(ref.current, `${tpl.name}.pdf`)}
+          className="w-full px-4 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-sm hover:shadow-md transition-all duration-200"
+        >
           Télécharger PDF
         </button>
       </div>

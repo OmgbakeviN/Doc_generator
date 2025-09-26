@@ -89,129 +89,138 @@ export default function UploadAndFix() {
 
     return (
         <div className="max-w-2xl space-y-6">
-            <h1 className="text-2xl font-semibold">{tpl.name}</h1>
+    <h1 className="text-2xl font-semibold text-slate-800">{tpl.name}</h1>
 
-            <div className="p-4 rounded-lg border border-white/10 bg-white/5">
-                <label className="text-sm opacity-80 block mb-2">
-                    Charger le fichier JSON du projet
-                </label>
-                <input
-                    type="file"
-                    accept=".json,application/json"
-                    onChange={onFile}
-                    className="block w-full rounded-lg border border-white/10 bg-black/30 p-2"
-                />
-                <p className="text-xs opacity-70 mt-2">
-                    Attendu: project_name, project_objectives[], total_budget_xaf,
-                    funding_requested_xaf, project_timeline.start_date, .end_date, .duration_months
-                </p>
+    <div className="p-4 rounded-lg border border-slate-200 bg-slate-50">
+        <label className="text-sm text-slate-600 font-medium block mb-2">
+            Charger le fichier JSON du projet
+        </label>
+        <input
+            type="file"
+            accept=".json,application/json"
+            onChange={onFile}
+            className="block w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+        />
+        <p className="text-xs text-slate-500 mt-2">
+            Attendu: project_name, project_objectives[], total_budget_xaf,
+            funding_requested_xaf, project_timeline.start_date, .end_date, .duration_months
+        </p>
+    </div>
+
+    {raw && showFixer && (
+        <div className="p-4 rounded-lg border border-amber-300 bg-amber-50">
+            <h2 className="font-medium text-slate-800 mb-3">Champs du projet</h2>
+            
+            {hasBeenValidated && missing.length === 0 && (
+                <div className="mb-4 p-3 bg-green-100 border border-green-300 rounded-lg">
+                    <p className="text-green-700 text-sm font-medium">✓ Tous les champs requis sont valides!</p>
+                </div>
+            )}
+            
+            <div className="space-y-4">
+                {tpl?.schema
+                    ?.filter(field => field.required || getByPath(patched, field.key) !== undefined)
+                    .map((field) => {
+                        const { key, label, type } = field;
+                        const val = getByPath(patched, key);
+                        const isMissing = missing.includes(key);
+
+                        if (type === "list<string>")
+                            return (
+                                <div key={key} className="grid gap-2">
+                                    <label className="text-sm text-slate-700 font-medium">
+                                        {label}
+                                        {isMissing && <span className="text-red-500 ml-1">*</span>}
+                                    </label>
+                                    <textarea
+                                        rows={4}
+                                        placeholder="Un élément par ligne"
+                                        value={Array.isArray(val) ? val.join("\n") : ""}
+                                        onChange={(e) => onMissingChange(key, e.target.value)}
+                                        className={`border rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-colors ${
+                                            isMissing ? "border-red-300 bg-red-50" : "border-slate-300 bg-white"
+                                        }`}
+                                    />
+                                    {isMissing && <p className="text-red-600 text-xs font-medium">Ce champ est requis</p>}
+                                </div>
+                            );
+
+                        if (type === "number")
+                            return (
+                                <div key={key} className="grid gap-2">
+                                    <label className="text-sm text-slate-700 font-medium">
+                                        {label}
+                                        {isMissing && <span className="text-red-500 ml-1">*</span>}
+                                    </label>
+                                    <input
+                                        type="number"
+                                        value={val ?? ""}
+                                        onChange={(e) => onMissingChange(key, e.target.value)}
+                                        className={`border rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-colors ${
+                                            isMissing ? "border-red-300 bg-red-50" : "border-slate-300 bg-white"
+                                        }`}
+                                    />
+                                    {isMissing && <p className="text-red-600 text-xs font-medium">Ce champ est requis</p>}
+                                </div>
+                            );
+
+                        if (type === "date")
+                            return (
+                                <div key={key} className="grid gap-2">
+                                    <label className="text-sm text-slate-700 font-medium">
+                                        {label}
+                                        {isMissing && <span className="text-red-500 ml-1">*</span>}
+                                    </label>
+                                    <input
+                                        type="date"
+                                        value={val ?? ""}
+                                        onChange={(e) => onMissingChange(key, e.target.value)}
+                                        className={`border rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-colors ${
+                                            isMissing ? "border-red-300 bg-red-50" : "border-slate-300 bg-white"
+                                        }`}
+                                    />
+                                    {isMissing && <p className="text-red-600 text-xs font-medium">Ce champ est requis</p>}
+                                </div>
+                            );
+
+                        return (
+                            <div key={key} className="grid gap-2">
+                                <label className="text-sm text-slate-700 font-medium">
+                                    {label}
+                                    {isMissing && <span className="text-red-500 ml-1">*</span>}
+                                </label>
+                                <input
+                                    type="text"
+                                    value={val ?? ""}
+                                    onChange={(e) => onMissingChange(key, e.target.value)}
+                                    className={`border rounded-lg px-3 py-2 text-slate-700 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-colors ${
+                                        isMissing ? "border-red-300 bg-red-50" : "border-slate-300 bg-white"
+                                    }`}
+                                />
+                                {isMissing && <p className="text-red-600 text-xs font-medium">Ce champ est requis</p>}
+                            </div>
+                        );
+                    })}
             </div>
-
-            {raw && showFixer && (
-                <div className="p-4 rounded-lg border border-amber-500/30 bg-amber-500/10">
-                    <h2 className="font-medium mb-3">Champs du projet</h2>
-                    
-                    {hasBeenValidated && missing.length === 0 && (
-                        <div className="mb-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
-                            <p className="text-green-300 text-sm">Tous les champs requis sont valides!</p>
-                        </div>
-                    )}
-                    
-                    <div className="space-y-4">
-                        {tpl?.schema
-                            ?.filter(field => field.required || getByPath(patched, field.key) !== undefined)
-                            .map((field) => {
-                                const { key, label, type } = field;
-                                const val = getByPath(patched, key);
-                                const isMissing = missing.includes(key);
-
-                                if (type === "list<string>")
-                                    return (
-                                        <div key={key} className="grid gap-2">
-                                            <label className="text-sm opacity-80">
-                                                {label}
-                                                {isMissing && <span className="text-red-500 ml-1">*</span>}
-                                            </label>
-                                            <textarea
-                                                rows={4}
-                                                placeholder="Un élément par ligne"
-                                                value={Array.isArray(val) ? val.join("\n") : ""}
-                                                onChange={(e) => onMissingChange(key, e.target.value)}
-                                                className="bg-white/5 border border-white/10 rounded-lg px-3 py-2"
-                                            />
-                                            {isMissing && <p className="text-red-500 text-xs">Ce champ est requis</p>}
-                                        </div>
-                                    );
-
-                                if (type === "number")
-                                    return (
-                                        <div key={key} className="grid gap-2">
-                                            <label className="text-sm opacity-80">
-                                                {label}
-                                                {isMissing && <span className="text-red-500 ml-1">*</span>}
-                                            </label>
-                                            <input
-                                                type="number"
-                                                value={val ?? ""}
-                                                onChange={(e) => onMissingChange(key, e.target.value)}
-                                                className="bg-white/5 border border-white/10 rounded-lg px-3 py-2"
-                                            />
-                                            {isMissing && <p className="text-red-500 text-xs">Ce champ est requis</p>}
-                                        </div>
-                                    );
-
-                                if (type === "date")
-                                    return (
-                                        <div key={key} className="grid gap-2">
-                                            <label className="text-sm opacity-80">
-                                                {label}
-                                                {isMissing && <span className="text-red-500 ml-1">*</span>}
-                                            </label>
-                                            <input
-                                                type="date"
-                                                value={val ?? ""}
-                                                onChange={(e) => onMissingChange(key, e.target.value)}
-                                                className="bg-white/5 border border-white/10 rounded-lg px-3 py-2"
-                                            />
-                                            {isMissing && <p className="text-red-500 text-xs">Ce champ est requis</p>}
-                                        </div>
-                                    );
-
-                                return (
-                                    <div key={key} className="grid gap-2">
-                                        <label className="text-sm opacity-80">
-                                            {label}
-                                            {isMissing && <span className="text-red-500 ml-1">*</span>}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            value={val ?? ""}
-                                            onChange={(e) => onMissingChange(key, e.target.value)}
-                                            className="bg-white/5 border border-white/10 rounded-lg px-3 py-2"
-                                        />
-                                        {isMissing && <p className="text-red-500 text-xs">Ce champ est requis</p>}
-                                    </div>
-                                );
-                            })}
-                    </div>
-                </div>
-            )}
-
-            {raw && (
-                <div className="flex justify-end">
-                    <button
-                        disabled={missing.length > 0}
-                        onClick={goPreview}
-                        className={`px-4 py-2 rounded-lg ${missing.length
-                                ? "bg-white/20 text-white/60 cursor-not-allowed"
-                                : "bg-white text-black"
-                            }`}
-                    >
-                        Aperçu
-                    </button>
-                </div>
-            )}
         </div>
+    )}
+
+    {raw && (
+        <div className="flex justify-end">
+            <button
+                disabled={missing.length > 0}
+                onClick={goPreview}
+                className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
+                    missing.length > 0
+                        ? "bg-slate-300 text-slate-500 cursor-not-allowed"
+                        : "bg-blue-600 text-white hover:bg-blue-700 shadow-sm"
+                }`}
+            >
+                Aperçu
+            </button>
+        </div>
+    )}
+</div>
     );
 }
 

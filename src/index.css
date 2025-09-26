@@ -1,15 +1,1 @@
 @import "tailwindcss";
-
-/* Force des couleurs basiques dans la zone d'export */
-#print-area, #print-area * {
-    /* Couleurs sûres */
-    color: #111 !important;
-    background-image: none !important;
-    /* si tu veux blanc partout, commente la ligne suivante */
-    /* background-color: #fff !important; */
-  
-    /* Neutralise certaines variables Tailwind susceptibles d'avoir des formats exotiques */
-    --tw-ring-color: rgba(0,0,0,0) !important;
-    --tw-shadow-color: #000 !important;
-  }
-  
